@@ -18,7 +18,7 @@ userRoute.get("/", checkToken, async (req, res) => {
     res.status(400).json({ message: "Bad request" });
     return;
   }
-  res.status(200).send(result);
+  res.status(200).send(JSON.stringify(result));
 });
 
 userRoute.get("/:id", checkToken, async (req, res) => {
@@ -44,7 +44,7 @@ userRoute.post("/", (req, res) => {
     res.status(400).send("Bad request");
 >>>>>>> f2a27ba (security adicted in user routes)
   }
-  res.status(201).send(result);
+  res.status(201).send(JSON.stringify(result));
 });
 
 userRoute.patch("/", checkToken, async (req, res) => {

@@ -23,16 +23,24 @@ model User {
 }
 
 model Food {
-  foodId          String   @id @default(uuid()) @map("food_id")
+  foodId          Int      @id @default(autoincrement()) @map("food_id")
   foodName        String   @map("food_name")
   foodIngredients String[] @map("food_ingredients")
   foodDescription String   @map("food_description")
   foodPrice       Float    @map("food_price")
-  foodImageName   String   @map("food_image_name")
-  foodImageStored String   @map("food_image_stored_name")
   createdAt       DateTime @default(now())
   author          User     @relation(fields: [authorId], references: [userId])
   authorId        String
+  image           Image[]
 
   @@map("foods")
+}
+
+model Image {
+  imageId     Int      @id @default(autoincrement()) @map("image_id")
+  fileName    String   @map("file_name")
+  storedName  String   @map("stored_name")
+  food        Food     @relation(fields: [foodIdImage], references: [foodId])
+  foodIdImage Int
+  createdAt   DateTime @default(now())
 }
