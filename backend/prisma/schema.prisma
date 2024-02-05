@@ -13,9 +13,9 @@ datasource db {
 model User {
   userId       String   @id @default(uuid()) @map("user_id")
   userName     String   @map("username")
-  userEmail    String   @map("user_email")
+  userEmail    String   @unique @map("user_email")
   userPassword String   @map("user_password")
-  userAdmin    Boolean  @map("user_admin")
+  userAdmin    Boolean  @default(false) @map("user_admin")
   createdAt    DateTime @default(now()) @map("created_at")
   foods        Food[]
 
