@@ -6,8 +6,10 @@ const authRoute = Router()
 const authService = new AuthService();
 const authController = new AuthController(authService)
 
-authRoute.post("/login", (req,res) =>{
-    const result = authController.login(req.body)
+authRoute.post("/", async (req,res) =>{
+    const result =await authController.login(req.body)
     if(!result) return res.status(401).end("Unauthorized")
-    res.status(200).send(JSON.stringify(result));
+    res.status(200).send(result);
 })
+
+export default authRoute                
