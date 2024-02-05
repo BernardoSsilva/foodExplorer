@@ -40,7 +40,7 @@ userRoute.post("/", (req, res) => {
 userRoute.patch("/", checkToken, async (req, res) => {
   const token = req.headers.authorization?.replace("Bearer ", "") || " ";
 
-  let userId
+  let userId;
   let decoded: DecodedToken;
   try {
     decoded = jwt.verify(token, process.env.mysecret ?? " ") as DecodedToken;
@@ -49,7 +49,7 @@ userRoute.patch("/", checkToken, async (req, res) => {
     res.status(400).send("Bad request");
   }
 
-  const result = await userController.editUser(userId??"", req.body);
+  const result = await userController.editUser(userId ?? "", req.body);
   if (!result) {
     res.status(400).json({ message: "Bad request" });
     return;
@@ -60,7 +60,7 @@ userRoute.patch("/", checkToken, async (req, res) => {
 userRoute.delete("/", checkToken, async (req, res) => {
   const token = req.headers.authorization?.replace("Bearer ", "") || " ";
 
-  let userId
+  let userId;
   let decoded: DecodedToken;
   try {
     decoded = jwt.verify(token, process.env.mysecret ?? " ") as DecodedToken;
@@ -68,7 +68,7 @@ userRoute.delete("/", checkToken, async (req, res) => {
   } catch (err) {
     res.status(400).send("Bad request");
   }
-  const result = await userController.deleteUser(userId??"");
+  const result = await userController.deleteUser(userId ?? "");
   if (!result) {
     res.status(400).json({ message: "Bad request" });
     return;
