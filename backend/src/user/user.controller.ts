@@ -28,4 +28,8 @@ export class UserController{
         return this.userService.editUser(id, userName, userEmail, userPassword)
     }
 
+    deleteUser(id:string){
+        return this.userService.deleteUser(id)
+    }
+
 }

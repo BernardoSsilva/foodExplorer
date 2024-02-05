@@ -37,5 +37,13 @@ userRoute.patch("/:id", (req,res) =>{
   res.status(200).send(result)
 })
 
+userRoute.delete("/:id", (req,res)=>{
+  const result = userController.deleteUser(req.params.id)
+  if(!result){
+    res.status(400).send("Bad Request")
+  }
+  res.status(200).send(result)
+})
+
 
 export default userRoute;

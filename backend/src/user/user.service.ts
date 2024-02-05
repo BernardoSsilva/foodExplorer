@@ -1,5 +1,4 @@
 import { prisma } from "../../prisma/client";
-import { CreateUserDto } from "./dtos/create.user.dto";
 
 export class UserService {
   async findAll() {
@@ -74,7 +73,28 @@ export class UserService {
                 userPassword
             }
         })
+        if(!result){
+            return false
+        }
+        return result
 
+    }catch(err){
+        return false
+    }
+  }
+
+  async deleteUser(userId:string){
+    try{
+        const result = await prisma.user.delete({
+            where:{
+                userId
+            }
+        })
+
+        if(!result){
+            return false
+        }
+        return result
     }catch(err){
         return false
     }
