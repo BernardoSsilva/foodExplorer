@@ -11,11 +11,7 @@ userRoute.get("/", async (req, res) => {
     res.status(400).json({ message: "Bad request" });
     return;
   }
-<<<<<<< HEAD
-  res.status(200).send(userController.getAllUsers())
-=======
   res.status(200).send(result);
->>>>>>> 1.1
 });
 
 userRoute.get("/:id", async (req, res) => {
