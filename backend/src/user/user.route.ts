@@ -11,7 +11,7 @@ userRoute.get("/", async (req, res) => {
     res.status(400).json({ message: "Bad request" });
     return;
   }
-  res.status(200).send(userController.getAllUsers());
+  res.status(200).send(JSON.stringify(result));
 });
 
 userRoute.get("/:id", async (req, res) => {
@@ -20,7 +20,7 @@ userRoute.get("/:id", async (req, res) => {
     res.status(400).json({ message: "Bad request" });
     return;
   }
-  res.status(200).send(result);
+  res.status(200).send(JSON.stringify(result));
 });
 userRoute.post("/", async (req, res) => {
   const result = await userController.createNewUser(req.body);
@@ -46,7 +46,7 @@ userRoute.delete("/:id", async (req, res) => {
     res.status(400).json({ message: "Bad request" });
     return;
   }
-  res.status(200).send(result);
+  res.status(200).send(JSON.stringify(result));
 });
 
 export default userRoute;
