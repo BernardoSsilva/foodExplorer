@@ -14,5 +14,12 @@ userRoute.get("/", (req, res) => {
   res.send(userController.getAllUsers())
 });
 
+userRoute.post("/", (req,res) =>{
+  const result = userController.createNewUser(req.body)
+  if(!result){
+    res.status(400).send("Bad request")
+  }
+})
+
 
 export default userRoute;
