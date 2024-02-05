@@ -9,6 +9,8 @@ export class AuthService {
       const user = await prisma.user.findUnique({
         where: { userEmail },
         select: {
+          userEmail: true,
+          userName: true,
           userAdmin: true,
           userId: true,
           userPassword: true,
@@ -19,21 +21,24 @@ export class AuthService {
         return { statusCode: 404, message: "Usuário não encontrado" };
       }
 
-      const checkPassword = await bcrypt.compare(
-        user.userPassword,
-        userPassword
+      console.log(user);
+      const checkPassword = await bcrypt.compareSync(
+        userPassword,
+        user.userPassword
       );
+
       if (!checkPassword) {
         return { statusCode: 401, message: "Acesso não autorizado" };
       }
 
       const { userId, userAdmin } = user;
-      const payload = { userId, userAdmin };
 
       const privatekey = process.env.mysecret ?? "";
-      const token = jwt.sign(payload, privatekey, {
+      const token = jwt.sign({userId, userAdmin}, privatekey, {
         expiresIn: "8h",
       });
+
+      return JSON.stringify(token);
     } catch (err) {
       return false;
     }
