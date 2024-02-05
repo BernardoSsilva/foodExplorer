@@ -42,6 +42,7 @@ export class UserService {
       return false;
     }
   }
+  
 
   async createUser(userName: string, userEmail: string, userPassword: string) {
     try {
@@ -85,15 +86,18 @@ export class UserService {
           userEmail,
           userPassword,
         },
+        
       });
       if (!result) {
         return false;
       }
+      
       return result;
     } catch (err) {
       return false;
     }
   }
+ 
 
   async deleteUser(userId: string) {
     try {
