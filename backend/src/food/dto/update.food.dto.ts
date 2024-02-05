@@ -1,5 +1,5 @@
-import { CreateFootDto } from "./create.food.dto";
+import { CreateFoodDto } from "./create.food.dto";
 
-export interface UpdateFoodDto extends Partial<CreateFootDto>{
-    
+export interface UpdateFoodDto extends Partial<CreateFoodDto>{
+
 }
