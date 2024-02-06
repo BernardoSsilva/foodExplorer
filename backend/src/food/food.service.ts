@@ -22,7 +22,7 @@ export class FoodService {
           foodPrice: foodObject.foodPrice,
         },
       });
-      return JSON.stringify(result);
+      return  (result);
     } catch (err) {
       return false;
     }
@@ -41,7 +41,7 @@ export class FoodService {
        if (!result) {
         return false;
       }
-      return JSON.stringify(result)
+      return  (result)
     } catch (err) {
       return false;
     }
@@ -61,7 +61,7 @@ export class FoodService {
           foodPrice:foodObject.foodPrice
         }
       })
-      return JSON.stringify(result)
+      return  (result)
     } catch(err){
       return false
     }
@@ -75,7 +75,7 @@ export class FoodService {
           foodId
         }
       })
-      return JSON.stringify(result)
+      return  (result)
     } catch(err){
       return false
     }
