@@ -9,6 +9,10 @@ export class FoodController {
     return await this.foodService.findAllMenu();
   }
 
+  async findOne(id:number){
+    return await this.foodService.findOne(id);
+  }
+
   async createNew(userId: string, createFoodDto: CreateFoodDto) {
     return await this.foodService.createFood(userId, createFoodDto);
   }
