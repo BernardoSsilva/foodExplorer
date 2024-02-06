@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Polygon from "../../assets/Polygon.svg";
-import { api } from "../../services/api";
+
 import "./registerScreen.css";
+import api from "../../services/api";
 export default function RegisterScreen() {
   const navigate = useNavigate();
   const [userEmail, setEmail] = useState("");
@@ -14,7 +15,8 @@ export default function RegisterScreen() {
       event.preventDefault();
       api
         .post("http://localhost:3000/user", { userName, userEmail, userPassword })
-        .then((response) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .then((response: any) => {
           if (response) {
             alert("usuario criado com sucesso");
             navigate("/");

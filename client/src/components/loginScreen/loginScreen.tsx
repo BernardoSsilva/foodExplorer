@@ -1,20 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Polygon from "../../assets/Polygon.svg";
-import { api } from "../../services/api";
+
 import "./loginScreen.css";
+import api from "../../services/api";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
   const [userEmail, setEmail] = useState("");
   const [userPassword, setPassword] = useState("");
   function handleSubmit(event: { preventDefault: () => void }) {
-    try{
+    try {
       event.preventDefault();
-      console.log("oioi");
+
       api
         .post("http://localhost:3000/login", { userEmail, userPassword })
-        .then((response) => {
+        .then((response: any) => {
           if (response.data.statusCode !== 404) {
             localStorage.setItem("authorization", response.data);
             navigate("/");
@@ -22,10 +24,9 @@ export default function LoginScreen() {
             alert("Não Autorizado!");
           }
         });
-    } catch (err){
+    } catch (err) {
       console.log(err);
     }
-    
   }
   return (
     <>
