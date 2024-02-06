@@ -5,9 +5,11 @@
   position: absolute;
   left: 0;
   top: 0;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   background-color: var(--background-color);
+  background-size: cover;
+
 }
 
 .mainLoginContainer {

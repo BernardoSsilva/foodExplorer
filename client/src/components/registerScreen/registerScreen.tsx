@@ -1,31 +1,41 @@
-import "./registerScreen.css";
-import Polygon from "../../assets/Polygon.svg";
 import { useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Polygon from "../../assets/Polygon.svg";
+import { api } from "../../services/api";
+import "./registerScreen.css";
 export default function RegisterScreen() {
+  const navigate = useNavigate();
   const [userEmail, setEmail] = useState("");
+
   const [userName, setName] = useState("");
   const [userPassword, setPassword] = useState("");
-  function handleRegister(event: { preventDefault: () => void;}):void {
-    event.preventDefault();
-    axios.post("http://localhost:3000/user", { userName, userEmail, userPassword })
-      .then((response) => {
-        if (response) {
-          alert("usuario criado com sucesso")
-        } else {
-          alert("Não foi possivel registrar este usuario!");
-        }
-      });
+  function handleRegister(event: { preventDefault: () => void }): void {
+    try{
+      event.preventDefault();
+      api
+        .post("http://localhost:3000/user", { userName, userEmail, userPassword })
+        .then((response) => {
+          if (response) {
+            alert("usuario criado com sucesso");
+            navigate("/");
+          } else {
+            alert("Não foi possivel registrar este usuario!");
+          }
+        });
+    }catch(err){
+      console.log(err);
+    }
+    
   }
   return (
     <>
-      <div className="body">
+      <div className="registerBody">
         <div className="mainRegisterContainer">
           <h1>
             <img src={Polygon} alt="" /> food explorer
           </h1>
 
-          <div className="form">
+          <div className="registerForm">
             <form onSubmit={handleRegister}>
               <h1 className="hidden">Crie sua conta</h1>
               <p>Nome</p>
@@ -38,7 +48,7 @@ export default function RegisterScreen() {
               <div className="field">
                 <p>Email</p>
                 <input
-                  type="text"
+                  type="email"
                   name="email"
                   placeholder="Exemplo: exemplo@exemplo.com.br"
                   onChange={(e) => setEmail(e.target.value)}
@@ -57,7 +67,7 @@ export default function RegisterScreen() {
               <button type="submit">Enviar</button>
             </form>
 
-            <a href="/">
+            <a className="registerLink" href="/">
               <p>ja tenho uma conta</p>
             </a>
           </div>
