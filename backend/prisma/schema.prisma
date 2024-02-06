@@ -31,7 +31,7 @@ model Food {
   createdAt       DateTime @default(now())
   author          User     @relation(fields: [authorId], references: [userId])
   authorId        String
-  image           Image[]
+  image           Image?
 
   @@map("foods")
 }
@@ -41,6 +41,6 @@ model Image {
   fileName    String   @map("file_name")
   storedName  String   @map("stored_name")
   food        Food     @relation(fields: [foodIdImage], references: [foodId])
-  foodIdImage Int
+  foodIdImage Int @unique
   createdAt   DateTime @default(now())
 }

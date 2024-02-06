@@ -4,6 +4,7 @@ import { FoodService } from "./food.service";
 import * as jwt from "jsonwebtoken";
 import multer from "multer";
 import { resourceUsage } from "process";
+import { checkToken } from "../middleware/middleware";
 
 const foodRoute = Router();
 
@@ -16,12 +17,23 @@ interface DecodedToken {
   userAdmin: boolean;
 }
 
-foodRoute.get("/", async (req, res) => {
+foodRoute.get("/", checkToken, async (req, res) => {
   const result = await foodController.findAll();
+  if(!result){
+    return res.status(400).send("Bad Request");
+  }
   return res.status(200).send(result);
 });
 
-foodRoute.post("/", async (req, res) => {
+foodRoute.get("/:id", checkToken, async (req, res) => {
+  const result = await foodController.findOne(parseInt(req.params.id));
+  if(!result){
+    return res.status(400).send("Bad Request");
+  }
+  return res.status(200).send(result);
+});
+
+foodRoute.post("/", checkToken, async (req, res) => {
   const token = req.headers.authorization?.replace("Bearer ", "") || " ";
 
   let userId, userPermission;
@@ -45,7 +57,7 @@ foodRoute.post("/", async (req, res) => {
   return res.status(200).send(result);
 });
 
-foodRoute.post("/:id", upload.single("file"), async (req, res) => {
+foodRoute.post("/:id", checkToken, upload.single("file"), async (req, res) => {
   const result = await foodController.fileUpload(
     parseInt(req.params.id),
     req.file?.originalname ?? "",
@@ -57,7 +69,22 @@ foodRoute.post("/:id", upload.single("file"), async (req, res) => {
   return res.status(200).send(result);
 });
 
-foodRoute.patch("/:id/update", async (req, res) => {
+foodRoute.patch("/:id/update", checkToken, async (req, res) => {
+  const token = req.headers.authorization?.replace("Bearer ", "") || " ";
+
+  let userId, userPermission;
+
+  let decoded: DecodedToken;
+  try {
+    decoded = jwt.verify(token, process.env.mysecret ?? " ") as DecodedToken;
+    userId = decoded.userId;
+    userPermission = decoded.userAdmin;
+  } catch (err) {
+    res.status(401).send("Unauthorized");
+  }
+  if (!userPermission) {
+    return res.status(400).send("Bad request");
+  }
   const result = await foodController.updateFood(
     parseInt(req.params.id),
     req.body
@@ -65,14 +92,29 @@ foodRoute.patch("/:id/update", async (req, res) => {
   if (!result) {
     return res.status(400).send("Bad request");
   }
-  res.status(200).send( (result));
+  res.status(200).send(result);
 });
 
-foodRoute.delete("/:id/delete", async (req, res) => {
+foodRoute.delete("/:id/delete", checkToken, async (req, res) => {
+  const token = req.headers.authorization?.replace("Bearer ", "") || " ";
+
+  let userId, userPermission;
+
+  let decoded: DecodedToken;
+  try {
+    decoded = jwt.verify(token, process.env.mysecret ?? " ") as DecodedToken;
+    userId = decoded.userId;
+    userPermission = decoded.userAdmin;
+  } catch (err) {
+    res.status(401).send("Unauthorized");
+  }
+  if (!userPermission) {
+    return res.status(400).send("Bad request");
+  }
   const result = await foodController.deleteFood(parseInt(req.params.id));
   if (!result) {
     return res.status(400).send("Bad request");
   }
-  res.status(200).send( (result));
+  res.status(200).send(result);
 });
 export default foodRoute;

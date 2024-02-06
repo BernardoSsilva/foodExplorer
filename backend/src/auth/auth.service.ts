@@ -21,7 +21,6 @@ export class AuthService {
         return { statusCode: 404, message: "Usuário não encontrado" };
       }
 
-      console.log(user);
       const checkPassword = await bcrypt.compareSync(
         userPassword,
         user.userPassword
@@ -30,7 +29,6 @@ export class AuthService {
       if (!checkPassword) {
         return { statusCode: 401, message: "Acesso não autorizado" };
       }
-
       const { userId, userAdmin } = user;
 
       const privatekey = process.env.mysecret ?? "";
