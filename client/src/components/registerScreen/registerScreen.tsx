@@ -1,36 +1,42 @@
-import axios from "axios";
+import "./registerScreen.css";
 import Polygon from "../../assets/Polygon.svg";
-import "./loginScreen.css";
 import { useState } from "react";
-
-export default function LoginScreen() {
+import axios from "axios";
+export default function RegisterScreen() {
   const [userEmail, setEmail] = useState("");
+  const [userName, setName] = useState("");
   const [userPassword, setPassword] = useState("");
-  function handleSubmit(event: { preventDefault: () => void; }){
+  function handleRegister(event: { preventDefault: () => void;}):void {
     event.preventDefault();
-    console.log("oioi")
-    axios.post("http://localhost:3000/login", {userEmail, userPassword}).then((response) => {
-       
-      if (response.data.statusCode !== 404) {
-        localStorage.setItem("authorization", response.data)
-      } else {
-        alert("Não Autorizado!")
-      }
-    });
+    axios.post("http://localhost:3000/user", { userName, userEmail, userPassword })
+      .then((response) => {
+        if (response) {
+          alert("usuario criado com sucesso")
+        } else {
+          alert("Não foi possivel registrar este usuario!");
+        }
+      });
   }
   return (
     <>
       <div className="body">
-        <div className="mainLoginContainer">
+        <div className="mainRegisterContainer">
           <h1>
             <img src={Polygon} alt="" /> food explorer
           </h1>
 
           <div className="form">
-            <form onSubmit={handleSubmit}>
-                <h1 className="hidden">Crie sua conta</h1>
+            <form onSubmit={handleRegister}>
+              <h1 className="hidden">Crie sua conta</h1>
+              <p>Nome</p>
+              <input
+                type="text"
+                name="name"
+                placeholder="Exemplo: Maria da Silva"
+                onChange={(e) => setName(e.target.value)}
+              />
               <div className="field">
-                <p>email</p>
+                <p>Email</p>
                 <input
                   type="text"
                   name="email"
@@ -39,7 +45,7 @@ export default function LoginScreen() {
                 />
               </div>
               <div className="field">
-                <p>senha</p>
+                <p>Senha</p>
                 <input
                   name="password"
                   type="password"
@@ -51,7 +57,9 @@ export default function LoginScreen() {
               <button type="submit">Enviar</button>
             </form>
 
-            <a href="/register"><p>criar uma conta</p></a>
+            <a href="/">
+              <p>ja tenho uma conta</p>
+            </a>
           </div>
         </div>
       </div>

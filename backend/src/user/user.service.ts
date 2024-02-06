@@ -50,22 +50,23 @@ export class UserService {
           userEmail,
         },
       });
-      if(userExists){
-        return false
-      }
-      const result = await prisma.user.create({
-        data: {
-          userName,
-          userEmail,
-          userPassword,
-        },
-      });
 
-      if (!result) {
-        return false;
-      }
+      if (!userExists) {
+        const result = await prisma.user.create({
+          data: {
+            userName,
+            userEmail,
+            userPassword,
+          },
+        });
 
-      return result;
+        if (!result) {
+          return false;
+        }
+
+        return result;
+      }
+      return false;
     } catch (err) {
       return false;
     }
@@ -86,17 +87,24 @@ export class UserService {
           userPassword,
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         
 >>>>>>> 1117f1b (fixed return format)
+=======
+>>>>>>> fb98993 (register screen)
       });
       if (!result) {
         return false;
       }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       
 >>>>>>> 1117f1b (fixed return format)
+=======
+
+>>>>>>> fb98993 (register screen)
       return result;
     } catch (err) {
       return false;

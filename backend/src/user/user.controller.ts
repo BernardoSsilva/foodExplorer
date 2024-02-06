@@ -18,7 +18,7 @@ export class UserController{
     async createNewUser(createUserDto: CreateUserDto){
         let {userName, userEmail, userPassword} = createUserDto
         userPassword = await bcrypt.hash(userPassword, 10)
-        return this.userService.createUser(userName, userEmail, userPassword)
+        return await this.userService.createUser(userName, userEmail, userPassword)
     }
 
     async editUser(id:string, {userName, userEmail, userPassword}:EditUserDto){
