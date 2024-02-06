@@ -20,4 +20,8 @@ export class FoodController {
   async updateFood(id:number, updateFoodDto:UpdateFoodDto){
     return await this.foodService.updateFood(id, updateFoodDto)
   }
+
+  async deleteFood(id:number){
+    return await this.foodService.deleteFood(id)
+  }
 }

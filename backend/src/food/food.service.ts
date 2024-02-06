@@ -66,4 +66,18 @@ export class FoodService {
       return false
     }
   }
+
+
+  async deleteFood(foodId:number){
+    try{
+      const result = await prisma.food.delete({
+        where:{
+          foodId
+        }
+      })
+      return JSON.stringify(result)
+    } catch(err){
+      return false
+    }
+  }
 }
