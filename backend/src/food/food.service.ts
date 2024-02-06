@@ -1,5 +1,6 @@
 import { prisma } from "../../prisma/client";
 import { CreateFoodDto } from "./dto/create.food.dto";
+import { UpdateFoodDto } from "./dto/update.food.dto";
 
 export class FoodService {
   async findAllMenu() {
@@ -43,6 +44,26 @@ export class FoodService {
       return JSON.stringify(result)
     } catch (err) {
       return false;
+    }
+  }
+
+
+  async updateFood(foodId:number, foodObject:UpdateFoodDto){
+    try{
+      const result = await prisma.food.update({
+        where:{
+          foodId
+        },
+        data:{
+          foodName:foodObject.foodName,
+          foodIngredients:foodObject.foodIngredients,
+          foodDescription:foodObject.foodDescription,
+          foodPrice:foodObject.foodPrice
+        }
+      })
+      return JSON.stringify(result)
+    } catch(err){
+      return false
     }
   }
 }

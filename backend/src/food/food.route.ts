@@ -50,4 +50,13 @@ foodRoute.post("/:id", upload.single("file"), (req,res) =>{
   }
   return res.status(200).send(JSON.stringify(result))
 })
+
+
+foodRoute.patch("/:id/update", (req, res) =>{
+  const result = foodController.updateFood(parseInt(req.params.id), req.body)
+  if(!result){
+    return res.status(400).send("Bad request")
+  }
+   res.status(200).send(JSON.stringify(result))
+})
 export default foodRoute
