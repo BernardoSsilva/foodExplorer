@@ -10,12 +10,8 @@
   background-color: var(--background-color);
 }
 
-.mainLoginContainer {
-  margin-top: 20%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.mainRegisterContainer {
+  margin-top: 10%;
 }
 
 h1 {

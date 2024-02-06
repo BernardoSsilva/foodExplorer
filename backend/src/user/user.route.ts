@@ -38,13 +38,20 @@ userRoute.post("/", async (req, res) => {
 =======
   res.status(200).send(result);
 });
-userRoute.post("/", (req, res) => {
-  const result = userController.createNewUser(req.body);
+userRoute.post("/", async (req, res) => {
+  const result = await userController.createNewUser(req.body);
+  console.log(result)
   if (!result) {
+<<<<<<< HEAD
     res.status(400).send("Bad request");
 >>>>>>> f2a27ba (security adicted in user routes)
+=======
+     res.status(400).end(result);
+     return
+    
+>>>>>>> fb98993 (register screen)
   }
-  res.status(201).send( (result));
+  return res.status(201).send(result);
 });
 
 userRoute.patch("/", checkToken, async (req, res) => {

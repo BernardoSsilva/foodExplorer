@@ -1,11 +1,10 @@
 import "./App.css";
-import LoginScreen from "./components/loginScreen/loginScreen";
+import RoutesDoc from "./components/routes";
 
 function App() {
-  
   return (
     <>
-      <LoginScreen />
+      <RoutesDoc />
     </>
   );
 }
