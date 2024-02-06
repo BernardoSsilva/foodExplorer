@@ -16,32 +16,37 @@ interface DecodedToken {
   userAdmin: boolean;
 }
 
-foodRoute.get("/", (req, res) => {
-  return res.status(200).send(foodController.findAll());
+foodRoute.get("/", async (req, res) => {
+  const result = await foodController.findAll();
+  return res.status(200).send(result);
 });
 
-foodRoute.post("/", (req, res) => {
+foodRoute.post("/", async (req, res) => {
   const token = req.headers.authorization?.replace("Bearer ", "") || " ";
 
-  let userId;
+  let userId, userPermission;
+
   let decoded: DecodedToken;
   try {
     decoded = jwt.verify(token, process.env.mysecret ?? " ") as DecodedToken;
     userId = decoded.userId;
+    userPermission = decoded.userAdmin;
   } catch (err) {
     res.status(401).send("Unauthorized");
   }
-
-  const result = foodController.createNew(userId ?? "", req.body);
+  if (!userPermission) {
+    return res.status(400).send("Bad request");
+  }
+  const result = await foodController.createNew(userId ?? "", req.body);
   if (!result) {
     return res.status(400).send("Bad request");
   }
 
-  return res.status(200).send(JSON.stringify(result));
+  return res.status(200).send(result);
 });
 
-foodRoute.post("/:id", upload.single("file"), (req, res) => {
-  const result = foodController.fileUpload(
+foodRoute.post("/:id", upload.single("file"), async (req, res) => {
+  const result = await foodController.fileUpload(
     parseInt(req.params.id),
     req.file?.originalname ?? "",
     req.file?.filename ?? ""
@@ -49,22 +54,25 @@ foodRoute.post("/:id", upload.single("file"), (req, res) => {
   if (!result) {
     return res.status(400).send("Bad request");
   }
-  return res.status(200).send(JSON.stringify(result));
+  return res.status(200).send(result);
 });
 
-foodRoute.patch("/:id/update", (req, res) => {
-  const result = foodController.updateFood(parseInt(req.params.id), req.body);
+foodRoute.patch("/:id/update", async (req, res) => {
+  const result = await foodController.updateFood(
+    parseInt(req.params.id),
+    req.body
+  );
   if (!result) {
     return res.status(400).send("Bad request");
   }
-  res.status(200).send(JSON.stringify(result));
+  res.status(200).send( (result));
 });
 
-foodRoute.delete("/:id/delete", (req, res) => {
-  const result = foodController.deleteFood(parseInt(req.params.id));
+foodRoute.delete("/:id/delete", async (req, res) => {
+  const result = await foodController.deleteFood(parseInt(req.params.id));
   if (!result) {
     return res.status(400).send("Bad request");
   }
-  res.status(200).send(JSON.stringify(result));
+  res.status(200).send( (result));
 });
 export default foodRoute;
