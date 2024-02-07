@@ -6,17 +6,18 @@ import { useState } from "react";
 export default function LoginScreen() {
   const [userEmail, setEmail] = useState("");
   const [userPassword, setPassword] = useState("");
-  function handleSubmit(event: { preventDefault: () => void; }){
+  function handleSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
-    console.log("oioi")
-    axios.post("http://localhost:3000/login", {userEmail, userPassword}).then((response) => {
-       
-      if (response.data.statusCode !== 404) {
-        localStorage.setItem("authorization", response.data)
-      } else {
-        alert("Não Autorizado!")
-      }
-    });
+    console.log("oioi");
+    axios
+      .post("http://localhost:3000/login", { userEmail, userPassword })
+      .then((response) => {
+        if (response.data.statusCode !== 404) {
+          localStorage.setItem("authorization", response.data);
+        } else {
+          alert("Não Autorizado!");
+        }
+      });
   }
   return (
     <>
@@ -28,7 +29,7 @@ export default function LoginScreen() {
 
           <div className="form">
             <form onSubmit={handleSubmit}>
-                <h1 className="hidden">Crie sua conta</h1>
+              <h1 className="hidden">Crie sua conta</h1>
               <div className="field">
                 <p>email</p>
                 <input
@@ -51,7 +52,9 @@ export default function LoginScreen() {
               <button type="submit">Enviar</button>
             </form>
 
-            <a href="/register"><p>criar uma conta</p></a>
+            <a href="/register">
+              <p>criar uma conta</p>
+            </a>
           </div>
         </div>
       </div>
